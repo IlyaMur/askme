@@ -9,14 +9,14 @@ class User < ApplicationRecord
 
   has_many :questions
 
-  before_validation :downcase_username
+  before_validation :downcase_attr
   before_save :encrypt_password
 
   validates :email, :username, presence: true
   validates :email, :username, uniqueness: true
 
   validates :username, length: { maximum: 40 }, format: { with: REGEXP_USERNAME }
-  validates :email, email: {mode: :strict, require_fqdn: true}
+  validates :email, email: { mode: :strict, require_fqdn: true }
 
   validates :password, confirmation: true
   validates :password, presence: true, on: :create
