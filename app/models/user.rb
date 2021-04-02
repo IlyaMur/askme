@@ -9,7 +9,8 @@ class User < ApplicationRecord
 
   has_many :questions
 
-  before_save :encrypt_password, :downcase_username
+  before_validation :downcase_username
+  before_save :encrypt_password
 
   validates :email, :username, presence: true
   validates :email, :username, uniqueness: true
