@@ -53,10 +53,8 @@ class User < ApplicationRecord
   end
 
   def downcase_user_params
-    unless username.nil? && email.nil?
-      self.username = username.downcase
-      self.email = email.downcase
-    end
+    username&.downcase!
+    email&.downcase!
   end
 end
 
