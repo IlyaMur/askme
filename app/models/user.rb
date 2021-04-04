@@ -9,7 +9,7 @@ class User < ApplicationRecord
 
   has_many :questions
 
-  before_validation :downcase_user_params
+  before_validation :downcase_attributes
   before_save :encrypt_password
 
   validates :email, :username, presence: true
@@ -22,16 +22,16 @@ class User < ApplicationRecord
   validates :password, presence: true, on: :create
 
   def self.authenticate(email, password)
-    user = find_by(email: email)
-    return nil unless user.present?
+    user = find_by(email: email&.downcase)
+
+    return unless user.present?
 
     hashed_password = User.hash_to_string(
       OpenSSL::PKCS5.pbkdf2_hmac(
         password, user.password_salt, ITERATIONS, DIGEST.length, DIGEST
       )
     )
-    return user if user.password_hash == hashed_password
-    nil
+    user if user.password_hash == hashed_password
   end
 
   def self.hash_to_string(password_hash)
@@ -52,7 +52,7 @@ class User < ApplicationRecord
     end
   end
 
-  def downcase_user_params
+  def downcase_attributes
     username&.downcase!
     email&.downcase!
   end
