@@ -33,6 +33,10 @@ class UsersController < ApplicationController
       Question.new(text: 'Как дела?', created_at: Date.parse('21.05.2021'))
     ]
 
+    @questions_amount = @questions.count
+    @answers_amount = @questions.select(&:answer).count
+    @unanswered_amount = @questions_amount - @answers_amount
+
     @new_question = Question.new
   end
 end

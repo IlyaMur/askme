@@ -57,6 +57,10 @@
   width: 50%;
 }
 
+.answers-stat {
+  margin-top: 15px;
+}
+
 .column-1-3 {
   float: left;
   width: 33.33%;
