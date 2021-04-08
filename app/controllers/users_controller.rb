@@ -10,7 +10,8 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
 
-    @questions = @user.questions
+    @questions = @user.questions.order(created_at: :desc)
+
 
     @questions_amount = @questions.count
     @answers_amount = @questions.select(&:answer).count
