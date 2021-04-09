@@ -12,7 +12,6 @@ class UsersController < ApplicationController
 
     @questions = @user.questions.order(created_at: :desc)
 
-
     @questions_amount = @questions.count
     @answers_amount = @questions.select(&:answer).count
     @unanswered_amount = @questions_amount - @answers_amount
