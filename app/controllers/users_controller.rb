@@ -1,15 +1,39 @@
 class UsersController < ApplicationController
+  before_action :load_user, except: %i[index new create]
+  before_action :authorize_user, except: %i[index new create show]
+
   def index
     @users = User.ordered_by_date.all
   end
 
-  def new; end
+  def new
+    redirect_to root_path, alert: 'Вы уже залогинены.' if current_user.present?
+    @user = User.new
+  end
 
-  def edit; end
+  def create
+    redirect_to root_path, alert: 'Вы уже залогинены.' if current_user.present?
+    @user = User.new(user_params)
+
+    if @user.save
+      redirect_to root_path, notice: 'Пользователь успешно зарегестрирован.'
+    else
+      render :new
+    end
+  end
+
+  def update
+    if @user.update(user_params)
+      redirect_to user_path(@user), notice: 'Пользователь успешно отредактирован.'
+    else
+      render 'edit'
+    end
+  end
+
+  def edit
+  end
 
   def show
-    @user = User.find(params[:id])
-
     @questions = @user.questions.order(created_at: :desc)
 
     @questions_amount = @questions.count
@@ -17,5 +41,20 @@ class UsersController < ApplicationController
     @unanswered_amount = @questions_amount - @answers_amount
 
     @new_question = Question.new
+  end
+
+  private
+
+  def user_params
+    params.require(:user).permit(:username, :email, :password,
+      :name, :avatar_url, :password_confirmation)
+  end
+
+  def load_user
+    @user = User.find(params[:id])
+  end
+
+  def authorize_user
+    reject_user unless current_user == @user
   end
 end

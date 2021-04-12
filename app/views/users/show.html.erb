@@ -1,8 +1,13 @@
 <div class="user-header text-center">
   <h1 class="title-medium">
-    <%# Выводим имя пользователя %>
     <%= @user.name %>
   </h1>
+
+  <% if current_user == @user %>
+    <div class="buffer-both">
+      <%= link_to 'Редактировать профиль', edit_user_path(@user) %>
+    </div>
+  <% end %>
 
   <div class="user-image-div">
     <%= image_tag user_avatar(@user), class: 'user-image', alt: '[Фото]' %>
