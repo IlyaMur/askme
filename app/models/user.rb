@@ -9,7 +9,7 @@ class User < ApplicationRecord
 
   has_many :questions
 
-  scope :ordered_by_date, -> { order(created_at: :asc) }
+  scope :ordered_by_id, -> { order(:id) }
 
   before_validation :downcase_attributes
   before_save :encrypt_password
