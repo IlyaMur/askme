@@ -27,7 +27,7 @@ class QuestionsController < ApplicationController
     user = @question.user
     @question.destroy
 
-    redirect_to user_path(@question.user), notice: 'Вопрос успешно удален.'
+    redirect_to user_path(user), notice: 'Вопрос успешно удален.'
   end
 
   private
@@ -41,9 +41,8 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    # Защита от уязвимости: если текущий пользователь — адресат вопроса,
-    # он может менять ответы на вопрос, ему доступно также поле :answer.
-    if current_user.present? && params[:question][:user_id].to_i == current_user.id
+    if current_user.present? &&
+       params[:question][:user_id].to_i == current_user.id
       params.require(:question).permit(:user_id, :text, :answer)
     else
       params.require(:question).permit(:user_id, :text)

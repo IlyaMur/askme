@@ -40,7 +40,7 @@ class UsersController < ApplicationController
     @answers_amount = @questions.select(&:answer).count
     @unanswered_amount = @questions_amount - @answers_amount
 
-    @new_question = Question.new
+    @new_question = @user.questions.build
   end
 
   private
