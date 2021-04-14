@@ -9,6 +9,7 @@ class UsersController < ApplicationController
   def new
     redirect_to root_path, alert: 'Вы уже залогинены.' if current_user.present?
     @user = User.new
+
   end
 
   def create
@@ -17,6 +18,7 @@ class UsersController < ApplicationController
 
     if @user.save
       redirect_to root_path, notice: 'Пользователь успешно зарегестрирован.'
+      session[:user_id] = @user.id
     else
       render :new
     end
