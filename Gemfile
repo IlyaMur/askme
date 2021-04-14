@@ -18,6 +18,8 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.7'
 gem 'email_validator'
 gem 'rails-i18n'
+gem 'rails_12factor'
+gem 'uglifier'
 
 group :production do
   gem 'pg'
