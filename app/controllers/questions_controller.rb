@@ -16,9 +16,7 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if incorrect_answer?
-      reject_user
-    elsif @question.update(question_params)
+    if @question.update(question_params.except(:user_id))
       redirect_to user_path(@question.user), notice: 'Вопрос успешно сохранен.'
     else
       render :edit
@@ -36,10 +34,6 @@ class QuestionsController < ApplicationController
 
   def load_question
     @question = Question.find(params[:id])
-  end
-
-  def incorrect_answer?
-    params[:question][:user_id].to_i != current_user.id
   end
 
   def authorize_user
