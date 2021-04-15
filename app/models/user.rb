@@ -3,11 +3,12 @@ require 'openssl'
 class User < ApplicationRecord
   ITERATIONS = 20000
   DIGEST = OpenSSL::Digest::SHA256.new
-  REGEXP_USERNAME = /\A\w+\Z/
+  VALID_USERNAME = /\A\w+\z/
+  VALID_COLOR = /\A#(\h{3}|\h{6})\z/i
 
   attr_accessor :password
 
-  has_many :questions
+  has_many :questions, dependent: :destroy
 
   scope :ordered_by_id, -> { order(:id) }
 
@@ -17,11 +18,14 @@ class User < ApplicationRecord
   validates :email, :username, presence: true
   validates :email, :username, uniqueness: true
 
-  validates :username, length: { maximum: 40 }, format: { with: REGEXP_USERNAME }
+  validates :username, length: { maximum: 40 }, format: { with: VALID_USERNAME }
   validates :email, email: { mode: :strict, require_fqdn: true }
 
   validates :password, confirmation: true
   validates :password, presence: true, on: :create
+
+  validates :header_color, format: { with: VALID_COLOR }
+  validates :avatar_url, format: { with: URI::DEFAULT_PARSER.make_regexp, allow_blank: true }
 
   def self.authenticate(email, password)
     user = find_by(email: email&.downcase)
