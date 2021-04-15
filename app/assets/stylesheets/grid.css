@@ -30,6 +30,10 @@
   margin-right: auto;
 }
 
+.author-margin {
+  margin-top: -2.2%;
+}
+
 .container:after {
   content: "";
   visibility: hidden;
