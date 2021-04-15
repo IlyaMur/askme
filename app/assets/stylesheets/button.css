@@ -9,6 +9,11 @@
   border: none;
 }
 
+.button-red {
+  background: red;
+  color: #fff;
+}
+
 .button-dark {
   background: #2e2f41;
   color: #fff;
