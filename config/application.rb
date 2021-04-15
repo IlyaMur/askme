@@ -23,6 +23,7 @@ module Askme
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
+    config.time_zone = 'Moscow'
 
     # Configuration for the application, engines, and railties goes here.
     #
@@ -35,5 +36,6 @@ module Askme
     # Don't generate system test files.
     config.generators.system_tests = nil
     config.i18n.default_locale = :ru
+    config.i18n.fallbacks = [:en]
   end
 end
