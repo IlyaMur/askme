@@ -11,8 +11,10 @@
   <% end %>
   <div class="content-wrapper buffer-both">
     <h1 class="title-medium">Хэштеги</h1>
-     <% @hashtags.each do |tag| %>
-     <%= link_to "##{tag.word}", hashtag_path(tag), class: 'hashtag text-lead' %>
-     <% end %>
+    <% if @hashtags.present? %>
+      <% @hashtags.each do |tag| %>
+        <%= link_to "##{tag.word}", hashtag_path(tag.word), class: 'hashtag text-lead' %>
+      <% end %>
+    <% end %>
   </div>
 </div>
