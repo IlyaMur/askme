@@ -12,7 +12,8 @@ class Question < ApplicationRecord
             presence: true,
             length: { maximum: 255 }
 
-  after_commit :save_hashtags
+  after_save :save_hashtags
+  after_destroy :del_hashtags_without_questions
 
   private
 
@@ -23,5 +24,9 @@ class Question < ApplicationRecord
     (tags_answers | tags_text).each do |tag|
       question_hashtag.create(hashtag: Hashtag.find_or_create_by(word: tag))
     end
+  end
+
+  def del_hashtags_without_questions
+    Hashtag.left_joins(:questions).where(questions: nil).destroy_all
   end
 end
