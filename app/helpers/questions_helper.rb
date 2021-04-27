@@ -4,6 +4,6 @@ module QuestionsHelper
   end
 
   def hashtag_link(tag)
-    link_to "##{tag}", hashtag_path(tag), class: 'hashtag'
+    link_to "##{tag}", hashtag_path(tag.downcase), class: 'hashtag'
   end
 end
