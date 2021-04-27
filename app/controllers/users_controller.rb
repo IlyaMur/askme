@@ -4,6 +4,7 @@ class UsersController < ApplicationController
 
   def index
     @users = User.ordered_by_id
+    @hashtags = Hashtag.all
   end
 
   def new
@@ -37,8 +38,7 @@ class UsersController < ApplicationController
     redirect_to root_path, notice: 'Вы удалили аккаунт. Очень жаль...'
   end
 
-  def edit
-  end
+  def edit; end
 
   def show
     @questions = @user.questions.order(created_at: :desc)

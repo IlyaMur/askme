@@ -1,8 +1,8 @@
 require 'openssl'
 
 class User < ApplicationRecord
-  ITERATIONS = 20000
-  DIGEST = OpenSSL::Digest::SHA256.new
+  ITERATIONS = 20_000
+  DIGEST = OpenSSL::Digest.new('SHA256')
   VALID_USERNAME = /\A\w+\z/
   VALID_COLOR = /\A#(\h{3}|\h{6})\z/i
 
@@ -15,17 +15,33 @@ class User < ApplicationRecord
   before_validation :downcase_attributes
   before_save :encrypt_password
 
-  validates :email, :username, presence: true
-  validates :email, :username, uniqueness: true
+  validates :email,
+            :username,
+            presence: true
 
-  validates :username, length: { maximum: 40 }, format: { with: VALID_USERNAME }
-  validates :email, email: { mode: :strict, require_fqdn: true }
+  validates :email,
+            :username,
+            uniqueness: true
 
-  validates :password, confirmation: true
-  validates :password, presence: true, on: :create
+  validates :username,
+            length: { maximum: 40 },
+            format: { with: VALID_USERNAME }
 
-  validates :header_color, format: { with: VALID_COLOR }
-  validates :avatar_url, format: { with: URI::DEFAULT_PARSER.make_regexp, allow_blank: true }
+  validates :email, email: { mode: :strict,
+                             require_fqdn: true }
+
+  validates :password,
+            confirmation: true
+
+  validates :password,
+            presence: true,
+            on: :create
+
+  validates :header_color,
+            format: { with: VALID_COLOR }
+
+  validates :avatar_url,
+            format: { with: URI::DEFAULT_PARSER.make_regexp, allow_blank: true }
 
   def self.authenticate(email, password)
     user = find_by(email: email&.downcase)
@@ -41,7 +57,7 @@ class User < ApplicationRecord
   end
 
   def self.hash_to_string(password_hash)
-    password_hash.unpack('H*')[0]
+    password_hash.unpack1('H*')
   end
 
   private
@@ -63,4 +79,3 @@ class User < ApplicationRecord
     email&.downcase!
   end
 end
-

@@ -16,6 +16,11 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def parse_hashtag
+    
+
+  end
+
   def update
     if @question.update(question_params.except(:user_id))
       redirect_to user_path(@question.user), notice: 'Вопрос успешно сохранен.'
