@@ -7,8 +7,4 @@ class Hashtag < ApplicationRecord
   validates :word,
             presence: true,
             length: { maximum: 20 }
-
-  def self.find_words_with_tags(string)
-    string&.scan(HASHTAG_REGEXP)&.map(&:downcase)&.map { |tag| tag[1..] }
-  end
 end
