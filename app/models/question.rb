@@ -12,22 +12,15 @@ class Question < ApplicationRecord
             presence: true,
             length: { maximum: 255 }
 
-  after_commit :save_hashtags, on: %i[create update]
+  after_commit :update_hashtags, on: %i[create update]
 
   private
 
-  def find_words_with_tags(string)
-    string&.scan(Hashtag::HASHTAG_REGEXP)&.map(&:downcase)&.map { |tag| tag[1..] }
-  end
+  def update_hashtags
+    question_hashtag.clear
 
-  def save_hashtags
-    question_hashtag.delete_all
-
-    tags_text = find_words_with_tags(text)
-    tags_answer = find_words_with_tags(answer) || []
-
-    (tags_answer | tags_text).each do |tag|
-      question_hashtag.create(hashtag: Hashtag.find_or_create_by(word: tag))
+    "#{text} #{answer}".downcase.scan(Hashtag::HASHTAG_REGEXP).uniq.map do |word|
+      hashtags << Hashtag.find_or_create_by(word: word.delete('#'))
     end
   end
 end

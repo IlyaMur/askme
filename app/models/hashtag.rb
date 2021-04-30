@@ -7,4 +7,6 @@ class Hashtag < ApplicationRecord
   validates :word,
             presence: true,
             length: { maximum: 20 }
+
+  scope :with_questions, -> { left_joins(:questions).where.not(questions: nil) }
 end
