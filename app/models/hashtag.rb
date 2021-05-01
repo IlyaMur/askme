@@ -8,5 +8,5 @@ class Hashtag < ApplicationRecord
             presence: true,
             length: { maximum: 20 }
 
-  scope :with_questions, -> { left_joins(:questions).where.not(questions: nil) }
+  scope :with_questions, -> { joins(:questions).distinct }
 end
