@@ -20,6 +20,7 @@ gem 'email_validator'
 gem 'rails-i18n'
 gem 'rails_12factor'
 gem 'uglifier'
+gem 'recaptcha', require: 'recaptcha/rails'
 
 group :production do
   gem 'pg'
