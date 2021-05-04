@@ -9,7 +9,7 @@ class QuestionsController < ApplicationController
 
     @question.author = current_user
 
-    if @question.save
+    if check_captcha(@question) && @question.save
       redirect_to user_path(@question.user), notice: 'Вопрос успешно создан.'
     else
       render :edit
@@ -43,5 +43,9 @@ class QuestionsController < ApplicationController
 
   def question_params
     params.require(:question).permit(:user_id, :text, :answer)
+  end
+
+  def check_captcha(question)
+    current_user.present? ? true : verify_recaptcha(model: question)
   end
 end
