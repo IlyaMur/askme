@@ -1,24 +1,35 @@
-# README
+# Good Questions
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Приложение "Хорошие вопросы" представляет из себя клон известной социальной сети ask.fm.
+Присутствует поддержка хэштегов, личных аккаунтов, анонимных вопросов.
 
-Things you may want to cover:
+### Демонстрация работы
 
-* Ruby version
+http://ask-application.herokuapp.com/
 
-* System dependencies
+### Задействованные технологии
 
-* Configuration
+- Деплой приложения выполнен на `heroku`
+- Для защиты от спама добавлена `Google reCAPTCHA v2`
+- Для поддержки локалей применяется `i18n`
+- В проекте используется СУБД `PostgreSQL`
 
-* Database creation
+### Как установить
 
-* Database initialization
+Приложение написано с использованием `Rails 6.1.3`. Необходима версия `Ruby 2.7.2` и выше.
 
-* How to run the test suite
+В проекте используется `bundler`, для установки зависимостей следует ввести
 
-* Services (job queues, cache servers, search engines, etc.)
+    bundle install
 
-* Deployment instructions
+Для установки миграций
 
-* ...
+    bundle exec rails db:migrate
+
+Запуск осуществляется
+
+    bundle exec rails s
+
+Приложение доступно по адресу `http://localhost:3000/`
+
+##### Free License
