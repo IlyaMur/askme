@@ -20,15 +20,15 @@ http://ask-application.herokuapp.com/
 
 В проекте используется `bundler`, для установки зависимостей следует ввести
 
-    bundle install
+    $ bundle install
 
 Для установки миграций
 
-    bundle exec rails db:migrate
+    $ bundle exec rails db:migrate
 
 Запуск осуществляется
 
-    bundle exec rails s
+    $ bundle exec rails s
 
 Приложение доступно по адресу `http://localhost:3000/`
 
